@@ -3,8 +3,9 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "test": "jest --passWithNoTests --coverage",
-    "typecheck": "tsc"
+    "build": "tsc",
+    "deploy": "echo deploying",
+    "test": "jest --passWithNoTests --coverage"
   },
   "devDependencies": {
     "@types/jest": "^27.4.1",

@@ -1,0 +1,54 @@
+name: Deploy Staging workflow
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    name: Build and Deploy to staging
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install packages
+        run: yarn
+
+#      - name: Run static code analysis
+#        run: npm run lint
+#
+#      - name: Run UTs
+#        run: npm run test
+
+      - name: build
+        run: npm run build
+
+      - name: deploy
+        run: npm run deploy
+
+#      - name: publish artifact
+#        run: npm run publish-artifact
+
+  create-release:
+    name: Create release
+    runs-on: ubuntu-latest
+    needs: build-and-deploy
+    permissions:
+      contents: write
+
+    steps:
+      - name: version
+        run: echo "::set-output name=version::0.0.1" # TODO: automate
+
+      - name: release
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: "bin/index.js"
+          bodyFile: "README.md"
+          token: ${{ secrets.GITHUB_TOKEN }}
+          draft: true
+          tag: ${{ github.ref }}
+          name: ${{ steps.version.outputs.version }}

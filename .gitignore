@@ -1,5 +1,6 @@
 tsconfig.tsbuildinfo
 .idea
 node_modules
+bin
 coverage
 cdk.out
