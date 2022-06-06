@@ -10,6 +10,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: debug release
+        run: echo ${{ github.event.release }}
+
       - name: release
         uses: dsaltares/fetch-gh-release-asset@master
         with:
