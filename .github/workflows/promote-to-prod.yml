@@ -17,7 +17,7 @@ jobs:
         uses: dsaltares/fetch-gh-release-asset@master
         with:
           repo: 'dweller23/deploy-with-release-draft-poc' #TODO automate
-          version: ${{ github.event.release.tag_name }}
+          version: ${{ github.event.release.id }}
           file: 'index.js'
           token: ${{ secrets.GITHUB_TOKEN }}
 
