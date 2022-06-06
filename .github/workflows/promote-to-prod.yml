@@ -1,0 +1,22 @@
+name: Deploy Staging workflow
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  promote-deployment:
+    name: Promote deployment to prod
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: release
+        uses: dsaltares/fetch-gh-release-asset@master
+        with:
+          repo: 'dweller23/deploy-with-release-draft-poc' #TODO automate
+          version: ${{ github.event.release.tag_name }}
+          file: 'index.js'
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: deploy
+        run: npm run deploy

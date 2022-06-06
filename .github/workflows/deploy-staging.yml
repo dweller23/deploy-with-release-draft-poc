@@ -44,5 +44,5 @@ jobs:
           bodyFile: "README.md"
           token: ${{ secrets.GITHUB_TOKEN }}
           draft: true
-          tag: ${{ github.ref }}
+          tag: 0.0.1 #TODO: automate
           name: ${{ steps.version.outputs.version }}
