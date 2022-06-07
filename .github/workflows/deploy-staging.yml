@@ -26,21 +26,39 @@ jobs:
 #        run: npm run test
 
       - name: build
-        run: npm run build
+        run: yarn build
 
       - name: deploy
-        run: npm run deploy
+        run: yarn deploy
 
       - name: get-npm-version
         id: package-version
         uses: martinbeentjes/npm-get-version-action@main
 
-      - name: release
+      - name: region1 release
+        id: region1-release
         uses: ncipollo/release-action@v1
         with:
           artifacts: "bin/index.js"
           generateReleaseNotes: true
           token: ${{ secrets.GITHUB_TOKEN }}
           draft: true
-          tag: ${{ steps.package-version.outputs.current-version}}
-          name: ${{ steps.package-version.outputs.current-version}}
+          tag: region1-${{ steps.package-version.outputs.current-version}}
+          name: region1-${{ steps.package-version.outputs.current-version}}
+
+      - name: region2 release
+        id: region2-release
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: "bin/index.js"
+          generateReleaseNotes: true
+          token: ${{ secrets.GITHUB_TOKEN }}
+          draft: true
+          tag: region2-${{ steps.package-version.outputs.current-version}}
+          name: region2-${{ steps.package-version.outputs.current-version}}
+
+      - name: region1 release link
+        run: echo "${{ steps.region1-release.outputs.html_url }}"
+
+      - name: region2 release link
+        run: echo "${{ steps.region2-release.outputs.html_url }}"

@@ -1,4 +1,4 @@
-name: Deploy Staging workflow
+name: Promote to Region prod
 
 on:
   release:
@@ -20,6 +20,13 @@ jobs:
           script: return context.payload.release.assets[0].name
           result-encoding: string
 
+      - name: Get region
+        id: get-region
+        uses: actions/github-script@v6
+        with:
+          script: return context.payload.release.name.split('-')[0]
+          result-encoding: string
+
       - name: release
         uses: dsaltares/fetch-gh-release-asset@master
         with:
@@ -29,5 +36,8 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           regex: true
 
+      - name: log region
+        run: echo "${{ steps.get-region.outputs.result }}"
+
       - name: deploy
-        run: npm run deploy
+        run: yarn deploy
