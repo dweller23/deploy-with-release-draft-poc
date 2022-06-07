@@ -13,16 +13,19 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Dump github context
-        run: echo "${{ toJson(github.event.release.assets[0].name) }}"
-        shell: bash
+      - name: Get artifact filename without doublequotes because the action for fetching artifact cannot handle such thing as doublequotes
+        id: get-artifact-name
+        uses: actions/github-script@v6
+        with:
+          script: return context.payload.release.assets[0].name
+          result-encoding: string
 
       - name: release
         uses: dsaltares/fetch-gh-release-asset@master
         with:
           repo: ${{ github.repository }}
           version: ${{ github.event.release.id }}
-          file:  ${{ toJson(github.event.release.assets[0].name) }}
+          file:  ${{ steps.get-artifact-name.outputs.result }}
           token: ${{ secrets.GITHUB_TOKEN }}
           regex: true
 
