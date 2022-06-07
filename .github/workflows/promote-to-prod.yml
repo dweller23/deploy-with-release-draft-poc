@@ -22,8 +22,9 @@ jobs:
         with:
           repo: ${{ github.repository }}
           version: ${{ github.event.release.id }}
-          file:  index.js # ${{ toJson(github.event.release.assets[0].name) }}
+          file:  ${{ toJson(github.event.release.assets[0].name) }}
           token: ${{ secrets.GITHUB_TOKEN }}
+          regex: true
 
       - name: deploy
         run: npm run deploy
