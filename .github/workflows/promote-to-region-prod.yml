@@ -13,6 +13,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - name: Install packages
+        run: yarn
+
       - name: Get artifact filename without doublequotes because the action for fetching artifact cannot handle such thing as doublequotes
         id: get-artifact-name
         uses: actions/github-script@v6
