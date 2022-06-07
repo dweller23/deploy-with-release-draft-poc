@@ -1,15 +1,17 @@
 {
   "name": "deploy-with-release-draft-poc",
-  "version": "0.0.6",
+  "version": "0.0.5",
   "private": true,
   "scripts": {
     "build": "tsc",
     "deploy": "echo deploying",
+    "prepare": "husky install",
+    "pre-commit": "npm version patch & git add package.json",
     "test": "jest --passWithNoTests --coverage"
   },
   "devDependencies": {
     "@types/jest": "^27.4.1",
-    "husky": "^7.0.4",
+    "husky": "^8.0.1",
     "jest": "^27.4.5",
     "prettier": "^2.6.2",
     "testdouble": "^3.16.5",
