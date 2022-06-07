@@ -20,10 +20,8 @@ jobs:
 #          GITHUB_CONTEXT: ${{ toJson(github) }}
 
       - name: Dump github context
-        run: echo "$GITHUB_CONTEXT"
+        run: echo "${{ github.event.release }}"
         shell: bash
-        env:
-          GITHUB_CONTEXT: ${{ toJson(github).event }}
 
       - name: release
         uses: dsaltares/fetch-gh-release-asset@master
