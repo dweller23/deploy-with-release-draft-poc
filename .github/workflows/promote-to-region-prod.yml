@@ -36,8 +36,5 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           regex: true
 
-      - name: log region
-        run: echo "${{ steps.get-region.outputs.result }}"
-
       - name: deploy
-        run: yarn deploy
+        run: yarn deploy ${{ steps.get-region.outputs.result }}

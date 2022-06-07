@@ -1,0 +1,1 @@
+console.log(`Deploying to ${process.argv[2]}`);

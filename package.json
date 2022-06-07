@@ -1,10 +1,10 @@
 {
   "name": "deploy-with-release-draft-poc",
-  "version": "0.0.15",
+  "version": "0.0.16",
   "private": true,
   "scripts": {
     "build": "tsc",
-    "deploy": "echo deploying",
+    "deploy": "ts-node scripts/deploy.ts",
     "prepare": "husky install",
     "pre-commit": "npm --no-git-tag-version version patch && git add .",
     "test": "jest --passWithNoTests --coverage"
@@ -17,6 +17,7 @@
     "testdouble": "^3.16.5",
     "testdouble-jest": "^2.0.0",
     "ts-jest": "^27.1.4",
+    "ts-node": "^10.8.1",
     "tsconfig-paths": "^3.14.1",
     "typescript": "^4.6.3"
   }

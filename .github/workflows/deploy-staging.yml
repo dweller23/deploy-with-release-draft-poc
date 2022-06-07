@@ -29,7 +29,7 @@ jobs:
         run: yarn build
 
       - name: deploy
-        run: yarn deploy
+        run: yarn deploy stage
 
       - name: get-npm-version
         id: package-version
