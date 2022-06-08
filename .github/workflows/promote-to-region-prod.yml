@@ -13,6 +13,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: node-modules-${{ hashFiles('yarn.lock') }}
+
       - name: Install packages
         run: yarn
 
@@ -30,7 +35,8 @@ jobs:
           script: return context.payload.release.name.split('-')[0]
           result-encoding: string
 
-      - name: release
+      # TODO: this could use an artifact from GH Actions rather than from a release
+      - name: Get artifact
         uses: dsaltares/fetch-gh-release-asset@master
         with:
           repo: ${{ github.repository }}
