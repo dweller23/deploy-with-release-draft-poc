@@ -6,8 +6,8 @@ on:
       - main
 
 jobs:
-  build-and-deploy:
-    name: Build and Deploy to staging
+  pre-build:
+    name: Install packages and run quality gates
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -16,20 +16,84 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: node-modules-${{ hashFiles('yarn.lock') }}
+
       - name: Install packages
         run: yarn
 
-#      - name: Run static code analysis
-#        run: npm run lint
-#
-#      - name: Run UTs
-#        run: npm run test
+  build:
+    name: Build artifact
+    runs-on: ubuntu-latest
+    needs: pre-build
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: node-modules-${{ hashFiles('yarn.lock') }}
 
       - name: build
         run: yarn build
 
+      - name: upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: app-artifact
+          path: bin/index.js
+          retention-days: 1
+
+  deploy:
+    name: Deploy artifact
+    runs-on: ubuntu-latest
+    needs: build
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: node-modules-${{ hashFiles('yarn.lock') }}
+
+      - name: download artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: app-artifact
+
       - name: deploy
         run: yarn deploy stage
+
+  upload-artifact:
+    name: Upload artifact
+    runs-on: ubuntu-latest
+    needs: build
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: node-modules-${{ hashFiles('yarn.lock') }}
+
+      - name: download artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: app-artifact
 
       - name: get-npm-version
         id: package-version
