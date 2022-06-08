@@ -81,6 +81,9 @@ jobs:
     needs: build
     permissions:
       contents: write
+    strategy:
+      matrix:
+        region: [ region1, region2 ]
 
     steps:
       - name: Checkout
@@ -101,30 +104,16 @@ jobs:
         id: package-version
         uses: martinbeentjes/npm-get-version-action@main
 
-      - name: region1 release
-        id: region1-release
+      - name: region release
+        id: region-release
         uses: ncipollo/release-action@v1
         with:
           artifacts: "bin/index.js"
           generateReleaseNotes: true
           token: ${{ secrets.GITHUB_TOKEN }}
           draft: true
-          tag: region1-${{ steps.package-version.outputs.current-version}}
-          name: region1-${{ steps.package-version.outputs.current-version}}
+          tag: ${{ matrix.region }}-${{ steps.package-version.outputs.current-version}}
+          name: ${{ matrix.region }}-${{ steps.package-version.outputs.current-version}}
 
-      - name: region2 release
-        id: region2-release
-        uses: ncipollo/release-action@v1
-        with:
-          artifacts: "bin/index.js"
-          generateReleaseNotes: true
-          token: ${{ secrets.GITHUB_TOKEN }}
-          draft: true
-          tag: region2-${{ steps.package-version.outputs.current-version}}
-          name: region2-${{ steps.package-version.outputs.current-version}}
-
-      - name: region1 release link
-        run: echo "${{ steps.region1-release.outputs.html_url }}"
-
-      - name: region2 release link
-        run: echo "${{ steps.region2-release.outputs.html_url }}"
+      - name: region release link
+        run: echo "${{ steps.region-release.outputs.html_url }}"
