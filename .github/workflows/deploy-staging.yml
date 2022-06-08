@@ -75,8 +75,8 @@ jobs:
       - name: deploy
         run: yarn deploy stage
 
-  upload-artifact:
-    name: Upload artifact
+  create-release:
+    name: Create release
     runs-on: ubuntu-latest
     needs: build
     permissions:
