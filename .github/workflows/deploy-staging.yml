@@ -70,6 +70,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: app-artifact
+          path: bin
 
       - name: deploy
         run: yarn deploy stage
@@ -94,6 +95,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: app-artifact
+          path: bin
 
       - name: get-npm-version
         id: package-version
