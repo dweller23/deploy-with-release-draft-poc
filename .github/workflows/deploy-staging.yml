@@ -94,6 +94,14 @@ jobs:
           path: node_modules
           key: node-modules-${{ hashFiles('yarn.lock') }}
 
+      - id: sets-a-secret
+        run: |
+          the_secret=$((RANDOM))
+          echo "::add-mask::$the_secret"
+          echo "::set-output name=secret-number::$the_secret"
+      - run: |
+          echo "the secret number is ${{ steps.sets-a-secret.outputs.secret-number }}"    
+
       - name: download artifact
         uses: actions/download-artifact@v3
         with:
