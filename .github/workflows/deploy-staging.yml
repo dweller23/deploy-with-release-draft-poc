@@ -100,7 +100,11 @@ jobs:
           echo "::add-mask::$the_secret"
           echo "::set-output name=secret-number::$the_secret"
       - name: test secret
-        run: echo ${{ toJson(steps.sets-a-secret.secret).ghActionsTest }}
+        run: |
+          echo "${{ toJson(steps.sets-a-secret.secret).ghActionsTest }}"
+          echo "$SOMETHING"
+        env:
+          SOMETHING: ${{ toJson(steps.sets-a-secret.secret).ghActionsTest }}
 #          password = $(echo steps.sets-a-secret.secret | python -c 'import json, sys; print(json.load(sys.stdin)["ghActionsTest"])')
 #          echo $password
 
