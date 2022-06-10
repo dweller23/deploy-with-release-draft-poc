@@ -98,7 +98,7 @@ jobs:
         run: mkdir -p output
 
       - name: Copy files for artifact with filename change
-        run: for SERVICE in component1 component2; do cd ./unformatted-for-artifact/$SERVICE; mv template.yaml $SERVICE.yaml; cp $SERVICE.yaml ./output/; done
+        run: for SERVICE in component1 component2; do cd ./unformatted-for-artifact/$SERVICE; mv template.yaml $SERVICE.yaml; pwd; cp $SERVICE.yaml ./output/; done
 
       - name: List artifacts
         run: ls ./output/
