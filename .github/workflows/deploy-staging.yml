@@ -96,11 +96,15 @@ jobs:
 
       - id: sets-a-secret
         run: |
-          the_secret=$((RANDOM))
+          the_secret="{"ghActionsTest":"secret-value"}"
           echo "::add-mask::$the_secret"
           echo "::set-output name=secret-number::$the_secret"
-      - run: |
-          echo "the secret number is ${{ steps.sets-a-secret.outputs.secret-number }}"    
+      - name: test secret
+        run: |
+          password = $(echo steps.sets-a-secret.secret | python -c 'import json, sys; print(json.load(sys.stdin)["ghActionsTest"])')
+          echo $password
+          echo ${{ toJson(steps.sets-a-secret.secret).ghActionsTest }}
+      
 
       - name: download artifact
         uses: actions/download-artifact@v3
