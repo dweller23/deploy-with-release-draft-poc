@@ -101,11 +101,14 @@ jobs:
           echo "::set-output name=secret::$the_secret"
       - name: test secret
         run: |
-          password = $(echo ${{ steps.sets-a-secret.secret }} | python -c 'import json, sys; print(json.load(sys.stdin)["ghActionsTest"])')
+          echo "${{ toJson(steps.sets-a-secret.outputs.secret).ghActionsTest }}"
+          echo ${{steps.docker-password-secret.outputs.secret}}
+          echo "$SOMETHING"
+          password = $(echo ${{ steps.sets-a-secret.outputs.secret }} | python -c 'import json, sys; print(json.load(sys.stdin)["ghActionsTest"])')
           echo $password
 
         env:
-          SOMETHING: ${{ toJson(steps.sets-a-secret.secret).ghActionsTest }}
+          SOMETHING: ${{ toJson(steps.sets-a-secret.outputs.secret).ghActionsTest }}
 #          password = $(echo steps.sets-a-secret.secret | python -c 'import json, sys; print(json.load(sys.stdin)["ghActionsTest"])')
 #          echo $password
 
