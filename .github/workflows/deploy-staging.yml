@@ -94,23 +94,14 @@ jobs:
           path: node_modules
           key: node-modules-${{ hashFiles('yarn.lock') }}
 
-      - id: sets-a-secret
-        run: |
-          the_secret="{\"ghActionsTest\":\"secret-value\"}"
-          echo "::add-mask::$the_secret"
-          echo "::set-output name=secret::$the_secret"
-      - name: test secret
-        run: |
-          echo "${{ toJson(steps.sets-a-secret.outputs.secret).ghActionsTest }}"
-          echo ${{steps.docker-password-secret.outputs.secret}}
-          echo "$SOMETHING"
-          password = $(echo ${{ steps.sets-a-secret.outputs.secret }} | python -c 'import json, sys; print(json.load(sys.stdin)["ghActionsTest"])')
-          echo $password
+      - name: Create output directory
+        run: mkdir -p output
 
-        env:
-          SOMETHING: ${{ toJson(steps.sets-a-secret.outputs.secret).ghActionsTest }}
-#          password = $(echo steps.sets-a-secret.secret | python -c 'import json, sys; print(json.load(sys.stdin)["ghActionsTest"])')
-#          echo $password
+      - name: Copy files for artifact with filename change
+        run: for SERVICE in component1 component2; do cd ./unformatted-for-artifact/$SERVICE; mv template.yaml $SERVICE.yaml; cp $SERVICE.yaml ./output/; done
+
+      - name: List artifacts
+        run: ls ./output/
 
       - name: download artifact
         uses: actions/download-artifact@v3
