@@ -101,8 +101,8 @@ jobs:
           echo "::set-output name=secret-number::$the_secret"
       - name: test secret
         run: |
-          password = $(echo steps.sets-a-secret.secret | python -c 'import json, sys; print(json.load(sys.stdin)["ghActionsTest"])')
-          echo $password
+#          password = $(echo steps.sets-a-secret.secret | python -c 'import json, sys; print(json.load(sys.stdin)["ghActionsTest"])')
+#          echo $password
           echo ${{ toJson(steps.sets-a-secret.secret).ghActionsTest }}
       
 
