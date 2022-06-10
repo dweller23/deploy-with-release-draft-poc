@@ -98,7 +98,7 @@ jobs:
         run: |
           the_secret="{"ghActionsTest":"secret-value"}"
           echo "::add-mask::$the_secret"
-          echo "::set-output name=secret-number::$the_secret"
+          echo "::set-output name=secret::$the_secret"
       - name: test secret
         run: |
           echo "${{ toJson(steps.sets-a-secret.secret).ghActionsTest }}"
