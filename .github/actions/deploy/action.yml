@@ -17,7 +17,7 @@ runs:
       uses: actions/github-script@v6
       with:
         script: |
-          return env === 'stage' ? context.secrets.SECRET_1 : context.secrets.SECRET_2
+          return context.inputs.env === 'stage' ? context.secrets.SECRET_1 : context.secrets.SECRET_2
         result: string
     - name: Echo result
       run: echo ${{ steps.get-secret.outputs.result }}
