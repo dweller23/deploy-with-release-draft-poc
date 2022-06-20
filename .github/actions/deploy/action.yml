@@ -12,3 +12,23 @@ runs:
     - run: yarn deploy ${{ inputs.env }}
       shell: bash
       name: Deploy
+    - name: Test accessing env by key
+      id: get-secret
+      uses: actions/github-script@v6
+      with:
+        script: |
+          return env === 'stage' ? context.secrets.SECRET_1 : context.secrets.SECRET_2
+        result: string
+    - name: Echo result
+      run: echo ${{ steps.get-secret.outputs.result }}
+      shell: bash
+    - name: Validate result
+      id: validate-result
+      uses: actions/github-script@v6
+      with:
+        script: |
+          return context.steps['get-secret'].outputs.result === context.secrets.SECRET_1
+        result: string
+    - name: Echo validation
+      run: echo ${{ steps.validate-result.outputs.result }}
+      shell: bash
