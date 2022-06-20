@@ -17,6 +17,7 @@ runs:
       uses: actions/github-script@v6
       with:
         script: |
+          console.log("MY CONTEXT", context)
           return context.inputs.env === 'stage' ? context.secrets.SECRET_1 : context.secrets.SECRET_2
         result: string
     - name: Echo result
