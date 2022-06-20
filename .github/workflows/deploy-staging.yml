@@ -76,6 +76,7 @@ jobs:
         uses: ./.github/actions/deploy
         with:
           env: stage
+          secret_input: ${{ secrets.SECRET_1 }}
 
   create-release:
     name: Create release
