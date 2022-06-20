@@ -15,10 +15,14 @@ runs:
     - name: Test accessing env by key
       id: get-secret
       uses: actions/github-script@v6
+      env:
+        secret1: ${{ secrets.SECRET_1 }}
+        secret2: ${{ secrets.SECRET_2 }}
+        env: ${{ inputs.env }}
       with:
         script: |
           console.log("MY CONTEXT", context)
-          return context.inputs.env === 'stage' ? context.secrets.SECRET_1 : context.secrets.SECRET_2
+          return process.env.env === 'stage' ? process.env.SECRET_1 : process.env.SECRET_2
         result: string
     - name: Echo result
       run: echo ${{ steps.get-secret.outputs.result }}
@@ -26,9 +30,11 @@ runs:
     - name: Validate result
       id: validate-result
       uses: actions/github-script@v6
+      env:
+        secret1: ${{ secrets.SECRET_1 }}
       with:
         script: |
-          return context.steps['get-secret'].outputs.result === context.secrets.SECRET_1
+          return context.steps['get-secret'].outputs.result === process.env.SECRET_1
         result: string
     - name: Echo validation
       run: echo ${{ steps.validate-result.outputs.result }}
