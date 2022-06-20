@@ -1,0 +1,14 @@
+name: deploy
+description: deployment action
+
+inputs:
+  secret_input:
+    required: true
+    description: Secret
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Echo secret input
+      run: echo ${{ inputs.secret_input }}
+      shell: bash

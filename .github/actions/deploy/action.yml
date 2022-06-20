@@ -15,6 +15,7 @@ runs:
     - run: yarn deploy ${{ inputs.env }}
       shell: bash
       name: Deploy
-    - name: Echo secret input
-      run: echo ${{ inputs.secret_input }}
-      shell: bash
+    - name: embedded-action
+      uses: ./.github/actions/embedded-action
+      with:
+        secret_input: ${{ inputs.secret_input }}
