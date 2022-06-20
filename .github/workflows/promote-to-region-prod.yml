@@ -46,4 +46,6 @@ jobs:
           regex: true
 
       - name: deploy
-        run: yarn deploy ${{ steps.get-region.outputs.result }}
+        uses: ./.github/actions/deploy
+        with:
+          env: ${{ steps.get-region.outputs.result }}

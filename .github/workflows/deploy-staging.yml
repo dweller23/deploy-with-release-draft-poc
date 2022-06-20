@@ -73,7 +73,9 @@ jobs:
           path: bin
 
       - name: deploy
-        run: yarn deploy stage
+        uses: ./.github/actions/deploy
+        with:
+          env: stage
 
   create-release:
     name: Create release

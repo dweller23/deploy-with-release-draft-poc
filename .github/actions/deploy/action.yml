@@ -1,0 +1,14 @@
+name: deploy
+description: deployment action
+
+inputs:
+  env:
+    required: true
+    description: Environment (region, maybe also account?)
+
+runs:
+  using: 'composite'
+  steps:
+    - run: yarn deploy ${{ inputs.env }}
+      shell: bash
+      name: Deploy
