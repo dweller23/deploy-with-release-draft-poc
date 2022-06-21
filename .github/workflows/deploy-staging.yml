@@ -24,6 +24,33 @@ jobs:
       - name: Install packages
         run: yarn
 
+      - name: Test accessing env by key
+        id: get-secret
+        uses: actions/github-script@v6
+        env:
+          secret1: ${{ secrets.SECRET_1 }}
+          secret2: ${{ secrets.SECRET_2 }}
+          env: stage
+        with:
+          script: |
+            return process.env.env === 'stage' ? process.env.SECRET_1 : process.env.SECRET_2
+          result: string
+      - name: Echo result
+        run: echo ${{ steps.get-secret.outputs.result }}
+        shell: bash
+      - name: Validate result
+        id: validate-result
+        uses: actions/github-script@v6
+        env:
+          secret1: ${{ secrets.SECRET_1 }}
+        with:
+          script: |
+            return context.steps['get-secret'].outputs.result === process.env.SECRET_1
+          result: string
+      - name: Echo validation
+        run: echo ${{ steps.validate-result.outputs.result }}
+        shell: bash
+
   build:
     name: Build artifact
     runs-on: ubuntu-latest
