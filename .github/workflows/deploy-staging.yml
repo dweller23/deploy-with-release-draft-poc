@@ -72,6 +72,11 @@ jobs:
           name: app-artifact
           path: bin
 
+      - name: echo context
+        uses: actions/github-script@v6
+        with:
+          script: console.log(context)
+
       - name: deploy
         uses: ./.github/actions/deploy
         with:

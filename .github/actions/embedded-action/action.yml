@@ -9,6 +9,7 @@ inputs:
 runs:
   using: 'composite'
   steps:
+
     - name: Echo secret input
       run: echo ${{ inputs.secret_input }}
       shell: bash
