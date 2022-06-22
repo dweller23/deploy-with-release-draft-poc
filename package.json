@@ -1,6 +1,6 @@
 {
   "name": "deploy-with-release-draft-poc",
-  "version": "0.0.48",
+  "version": "0.0.49",
   "private": true,
   "scripts": {
     "build": "tsc",
