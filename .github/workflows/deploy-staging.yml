@@ -125,6 +125,7 @@ jobs:
           draft: true
           tag: ${{ matrix.region }}-${{ steps.package-version.outputs.current-version}}
           name: ${{ matrix.region }}-${{ steps.package-version.outputs.current-version}}
+          commit: feat/branch-gh-action-on-release
 
       - name: region release link
         run: echo "${{ steps.region-release.outputs.html_url }}"
