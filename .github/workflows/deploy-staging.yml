@@ -3,7 +3,7 @@ name: Deploy Staging workflow
 on:
   push:
     branches:
-      - main
+      - feat/branch-gh-action-on-release
 
 jobs:
   pre-build:
