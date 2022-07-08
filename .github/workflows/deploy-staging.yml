@@ -1,9 +1,8 @@
 name: Deploy Staging workflow
 
 on:
-  push:
-    branches:
-      - feat/branch-gh-action-on-release
+  pull_request:
+    types: [opened, synchronize, reopened]
 
 env:
   BASE_BRANCH: ${{ github.event.pull_request.base.ref }}
