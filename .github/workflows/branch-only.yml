@@ -3,7 +3,6 @@ name: Branch-only
 on:
   release:
     types: [published]
-
 jobs:
   promote-deployment:
     name: Promote deployment to prod
@@ -28,13 +27,6 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: return context.payload.release.assets[0].name
-          result-encoding: string
-
-      - name: Get region
-        id: get-region
-        uses: actions/github-script@v6
-        with:
-          script: return context.payload.release.name.split('-')[0]
           result-encoding: string
 
       # TODO: this could use an artifact from GH Actions rather than from a release
