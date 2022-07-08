@@ -2,7 +2,7 @@ name: Promote to Region prod
 
 on:
   release:
-    types: [published]
+    types: [released]
 
 jobs:
   promote-deployment:
